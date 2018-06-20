@@ -6,13 +6,13 @@
 /*   By: radler <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:21:42 by radler            #+#    #+#             */
-/*   Updated: 2018/06/19 16:54:37 by radler           ###   ########.fr       */
+/*   Updated: 2018/06/11 17:20:58 by radler           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char							*getargform(const char *format)
+char	*getargform(const char *format)
 {
 	int		i;
 	char	*argform;
@@ -25,7 +25,7 @@ char							*getargform(const char *format)
 	return (argform);
 }
 
-char							*getargtype(char *argform)
+char	*getargtype(char *argform)
 {
 	char	*argtype;
 
@@ -56,7 +56,7 @@ int		ft_isarg(char c)
 	return (0);
 }
 
-char							**argtabinit(void)
+char	**argtabinit(void)
 {
 	char **argtab;
 
@@ -80,28 +80,4 @@ char							**argtabinit(void)
 	argtab[16] = ft_strdup("S ls");
 	argtab[17] = NULL;
 	return (argtab);
-}
-
-char *(*f[])(char *, va_list)	ft_ftabinit(void)
-{
-	char *(*f[17])(char *, va_list);
-	
-	f[0] = argtype_int;
-	f[1] = argtype_uint;
-	f[2] = argtype_charchar;
-	f[3] = argtype_void;
-	f[4] = argtype_short;
-	f[5] = argtype_char;
-	f[6] = argtype_long;
-	f[7] = argtype_longlong;
-	f[8] = argtype_ushort;
-	f[9] = argtype_uchar;
-	f[10] = argtype_ulong;
-	f[11] = argtype_ulonglong;
-	f[12] = argtype_intmax_t;
-	f[13] = argtype_uintmax_t;
-	f[14] = argtype_size_t;
-	f[15] = argtype_wint_t;
-	f[16] = argtype_wchar_t;
-	return (*f);
 }

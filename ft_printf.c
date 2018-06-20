@@ -56,7 +56,8 @@ int		ft_printf(const char *format, ...)
 int main()
 {
 	long long a = 9223372036854775802;
+	char b = 92;
 	ft_printf("pour obtenir de l'%s \nil faut faire des %% de 16.\n", "hexadecimal");
-	printf("________________________________________\n, il faut %lld quilles, et %s\n", a, "Alain");
+	printf("________________________________________\n, il faut %c quilles, et %s\n", b, "Alain");
 	return (0);
 }

@@ -55,7 +55,7 @@ char	*argtype_longlong(char *argtype, va_list ap)
 		if (arg >= 0)
 			return (ft_itoa_base((unsigned long long)arg, 10));
 		else
-			return (ft_negitoa(arg);
+			return (ft_negitoa(arg));
 	}
 	return (NULL);
 }

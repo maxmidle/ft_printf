@@ -67,7 +67,7 @@ char	*ft_negitoa(long long value)
 	str[size] = value + 48;
 	str[0] = '-';
 	return (str);
-}
+}/*
 #include <stdio.h>
 int main()
 {
@@ -86,4 +86,4 @@ int main()
 	printf("%s\n", str);
 	free(str);
 	return (0);
-}
+}*/
