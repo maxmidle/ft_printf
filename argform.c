@@ -6,7 +6,7 @@
 /*   By: radler <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/11 14:21:42 by radler            #+#    #+#             */
-/*   Updated: 2018/06/11 17:20:58 by radler           ###   ########.fr       */
+/*   Updated: 2018/06/21 20:46:17 by radler           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,41 @@ char	**argtabinit(void)
 	argtab[4] = ft_strdup("hd hi");
 	argtab[5] = ft_strdup("hhd hhi");
 	argtab[6] = ft_strdup("D ld li");
-	argtab[7] = ft_strdup("lld lli");
+	argtab[7] = ft_strdup("lld lli zd zi");
 	argtab[8] = ft_strdup("ho hu hx hX");
 	argtab[9] = ft_strdup("c hho hhu hhx hhX");
 	argtab[10] = ft_strdup("O U lo lu lx lX");
 	argtab[11] = ft_strdup("llo llu llx llX");
 	argtab[12] = ft_strdup("jd ji");
 	argtab[13] = ft_strdup("jo ju jx jX");
-	argtab[14] = ft_strdup("zo zu zx zX zd zi");
+	argtab[14] = ft_strdup("zo zu zx zX");
 	argtab[15] = ft_strdup("C lc");
 	argtab[16] = ft_strdup("S ls");
 	argtab[17] = NULL;
 	return (argtab);
+}
+
+char	*(*ptrfuninit(int i))(char *, va_list)
+{
+	char	*(**f)(char *, va_list);
+
+	f = malloc(sizeof(*f) * 18);
+	f[0] = argtype_int;
+	f[1] = argtype_uint;
+	f[2] = argtype_charchar;
+	f[3] = argtype_void;
+	f[4] = argtype_short;
+	f[5] = argtype_char;
+	f[6] = argtype_long;
+	f[7] = argtype_longlong;
+	f[8] = argtype_ushort;
+	f[9] = argtype_uchar;
+	f[10] = argtype_ulong;
+	f[11] = argtype_ulonglong;
+	f[12] = argtype_intmax_t;
+	f[13] = argtype_uintmax_t;
+	f[14] = argtype_size_t;
+	f[15] = argtype_wint_t;
+	f[16] = argtype_wchar_t;
+	return (f[i]);
 }

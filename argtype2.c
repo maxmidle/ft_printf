@@ -6,7 +6,7 @@
 /*   By: radler <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/15 19:26:17 by radler            #+#    #+#             */
-/*   Updated: 2018/06/15 19:59:39 by radler           ###   ########.fr       */
+/*   Updated: 2018/06/21 18:47:34 by radler           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,83 +14,86 @@
 
 char	*argtype_char(char *argtype, va_list ap)
 {
-	char arg;
+	char argu;
 
-	arg = va_arg(ap, char);
+	argu = (char)va_arg(ap, int);
 	if (ft_strstr(argtype, "hhi") || ft_strstr(argtype, "hhd"))
 	{
-		if (arg >= 0)
-			return (ft_itoa_base((unsigned long long)arg, 10));
+		if (argu >= 0)
+			return (ft_itoa_base((unsigned long long)argu, 10));
 		else
-			return (ft_negitoa((long long)arg));
+			return (ft_negitoa((long long)argu));
 	}
 	return (NULL);
 }
 
 char	*argtype_long(char *argtype, va_list ap)
 {
-	long arg;
+	long argu;
 	int last;
 
 	last = ft_strlen(argtype) - 1;
-	arg = va_arg(ap, long);
-	if (ft_strstr(argtype, "ld") || ft_strstr(argtype, "li" ||
-			   	argtype[last] = 'D'))
+	argu = va_arg(ap, long);
+	if (ft_strstr(argtype, "ld") || ft_strstr(argtype, "li") ||
+			   	argtype[last] == 'D')
 	{
-		if (arg >= 0)
-			return (ft_itoa_base((unsigned long long)arg, 10));
+		if (argu >= 0)
+			return (ft_itoa_base((unsigned long long)argu, 10));
 		else
-			return (ft_negitoa((long long)arg));
+			return (ft_negitoa((long long)argu));
 	}
 	return (NULL);
 }
 
 char	*argtype_longlong(char *argtype, va_list ap)
 {
-	long long arg;
+	long long argu;
 
-	arg = va_arg(ap, long long);
-	if (ft_strstr(argtype, "lli") || ft_strstr(argtype, "lld"))
+	argu = va_arg(ap, long long);
+	if (ft_strstr(argtype, "lli") || ft_strstr(argtype, "lld") ||
+			ft_strstr(argtype, "zi") || ft_strstr(argtype, "zd"))
 	{
-		if (arg >= 0)
-			return (ft_itoa_base((unsigned long long)arg, 10));
+		if (argu >= 0)
+			return (ft_itoa_base((unsigned long long)argu, 10));
 		else
-			return (ft_negitoa(arg));
+			return (ft_negitoa(argu));
 	}
 	return (NULL);
 }
 
 char	*argtype_ushort(char *argtype, va_list ap)
 {
-	unsigned short arg;
+	unsigned short argu;
 
-	arg = va_arg(ap, unsigned short);
-	arg = (unsigned long long)arg;
+	argu = (unsigned short)va_arg(ap, unsigned int);
+	argu = (unsigned long long)argu;
 	if (ft_strstr(argtype, "ho"))
-		return (ft_itoa_base(arg, 8));
+		return (ft_itoa_base(argu, 8));
 	else if (ft_strstr(argtype, "hu"))
-		return (ft_itoa_base(arg, 10));
+		return (ft_itoa_base(argu, 10));
 	else if (ft_strstr(argtype, "hx"))
-		return (ft_itoa_base(arg, 16));
+		return (ft_itoa_base(argu, 16));
 	else if (ft_strstr(argtype, "hX"))
-		return (ft_itoa_base(arg, 17));
+		return (ft_itoa_base(argu, 17));
 	return (NULL);
 }
 
 char	*argtype_uchar(char *argtype, va_list ap)
 {
-	unsigned char arg;
+	unsigned char	argu;
+	char			*c;
 
-	arg = va_arg(ap, unsigned char);
+	c = (char *)&argu;
+	argu = (unsigned char)va_arg(ap, unsigned int);
 	if (argtype[ft_strlen(argtype) - 1] == 'c')
-		return ((char *)&arg);
+		return (ft_strndup(c, 1));
 	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)arg, 10));
+		return (ft_itoa_base((unsigned long long)argu, 10));
 	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)arg, 10));
+		return (ft_itoa_base((unsigned long long)argu, 10));
 	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)arg, 10));
+		return (ft_itoa_base((unsigned long long)argu, 10));
 	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)arg, 10));
+		return (ft_itoa_base((unsigned long long)argu, 10));
 	return (NULL);
 }

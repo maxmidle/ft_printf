@@ -6,7 +6,7 @@
 /*   By: radler <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/13 19:06:20 by radler            #+#    #+#             */
-/*   Updated: 2018/06/13 19:07:53 by radler           ###   ########.fr       */
+/*   Updated: 2018/06/21 19:02:35 by radler           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ char	*ft_negitoa(long long value)
 	size = 2;
 	str = NULL;
 	tmp = value * -1;
-	if (tmp == 9223372036854775808)
-		return (ft_strdup("-9223372036854775808"));
+	if (value == -9223372036854775807)
+		return (ft_strdup("-9223372036854775807"));
 	while (tmp >= 10)
 	{
 		size++;
@@ -67,23 +67,4 @@ char	*ft_negitoa(long long value)
 	str[size] = value + 48;
 	str[0] = '-';
 	return (str);
-}/*
-#include <stdio.h>
-int main()
-{
-	char *str;
-	unsigned long long b = 18446744073709551614;
-	long long c = -9223372036854775808;
-	int a = 2256854;
-	void *ptr;
-	ptr = &a;
-	printf("%llu\n", b);
-	str = ft_negitoa(c);
-	printf("%s\n", str);
-	printf("%p\n", ptr);
-	printf("%d\n", a);
-	str = ft_negitoa(a);
-	printf("%s\n", str);
-	free(str);
-	return (0);
-}*/
+}
