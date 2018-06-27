@@ -22,7 +22,8 @@ char	*ft_strcdup(const char *s, char c)
 		i++;
 	if (!(str = (char *)malloc(sizeof(char) * (i + 1))))
 		return (NULL);
-	str[i--] = '\0';
+	str[i] = '\0';
+	i--;
 	while (i >= 0)
 	{
 		str[i] = s[i];

@@ -19,9 +19,11 @@ char	*getargform(const char *format)
 
 	i = 0;
 	argform = NULL;
-	while (!(ft_isarg(format[i])))
+	while (!(ft_isarg(format[i])) && format[i])
 		i++;
 	argform = ft_strsub(format, 1, i);
+	if (!format[i])
+		return (NULL);
 	return (argform);
 }
 
@@ -29,6 +31,8 @@ char	*getargtype(char *argform)
 {
 	char	*argtype;
 
+	if (!argform)
+		return (NULL);
 	if (ft_strstr(argform, "ll"))
 		argtype = ft_strdup("ll");
 	else if (ft_strstr(argform, "l"))
@@ -49,9 +53,10 @@ char	*getargtype(char *argform)
 
 int		ft_isarg(char c)
 {
+										
 	if (c == 's' || c == 'S' || c == 'p' || c == 'd' || c == 'D' ||
 			c == 'i' || c == 'o' || c == 'O' || c == 'u' || c == 'U' ||
-			c == 'x' || c == 'X' || c == 'c' || c == 'C')
+			c == 'x' || c == 'X' || c == 'c' || c == 'C' || c == 'b')
 		return (1);
 	return (0);
 }
@@ -62,20 +67,20 @@ char	**argtabinit(void)
 
 	argtab = malloc(sizeof(char *) * 18);
 	argtab[0] = ft_strdup("d i");
-	argtab[1] = ft_strdup("o u x X");
+	argtab[1] = ft_strdup("o u x X b");
 	argtab[2] = ft_strdup("s");
 	argtab[3] = ft_strdup("p");
 	argtab[4] = ft_strdup("hd hi");
 	argtab[5] = ft_strdup("hhd hhi");
 	argtab[6] = ft_strdup("D ld li");
 	argtab[7] = ft_strdup("lld lli zd zi");
-	argtab[8] = ft_strdup("ho hu hx hX");
-	argtab[9] = ft_strdup("c hho hhu hhx hhX");
-	argtab[10] = ft_strdup("O U lo lu lx lX");
-	argtab[11] = ft_strdup("llo llu llx llX");
+	argtab[8] = ft_strdup("ho hu hx hX hb");
+	argtab[9] = ft_strdup("c hho hhu hhx hhX hhb");
+	argtab[10] = ft_strdup("O U lo lu lx lX lb");
+	argtab[11] = ft_strdup("llo llu llx llX llb");
 	argtab[12] = ft_strdup("jd ji");
-	argtab[13] = ft_strdup("jo ju jx jX");
-	argtab[14] = ft_strdup("zo zu zx zX");
+	argtab[13] = ft_strdup("jo ju jx jX jb");
+	argtab[14] = ft_strdup("zo zu zx zX zb");
 	argtab[15] = ft_strdup("C lc");
 	argtab[16] = ft_strdup("S ls");
 	argtab[17] = NULL;

@@ -12,44 +12,34 @@
 
 #include "ft_printf.h"
 
-#include <stdio.h>
 int		ft_printf(const char *format, ...)
 {
 	int		i;
+	int	size;
 	va_list	ap;
 	char *str;
-	char *argform;
-	char *buff;
 
 	i = 0;
 	va_start(ap, format);
 	str = ft_strnew(0);
+	size = 0;
 	while (format[i])
 	{
-		if (format[i] != '%')
-			ft_strnconc(&str, ft_strlen(str), (char *)&format[i], 1);
-		else if (format[i] == '%' && format[i + 1] == '%')
+		str = ft_strcdup(&format[i], '%');
+		i += ft_strlen(str);
+		if (format[i] == '%')
 		{
-			ft_strconc(&str, "%");
-			i++;
-		}
-		else if (format[i] == '%')
-		{
-			argform = getargform(&format[i]);
-			if(!(buff = sendarg(argform, ap)))
+			if ((i += getargflag(&format[i], &str, ap)) < 0)
 				return (-1);
-			ft_strconc(&str, buff);
-			ft_strdel(&buff);
-			i = i + ft_strlen(argform);
 		}
-		i++;
+		size += ft_strlen(str);
+		ft_putstr(str);
+		ft_strdel(&str);
 	}
-	free (argform);
-	ft_putstr(str);
-	return (ft_strlen(str));
+	return (size);
 }
 
-char	*sendarg(char *argform, va_list ap)
+char	*getarg(char *argform, va_list ap)
 {
 	char *(*f)(char *argtype, va_list ap);
 	char *argtype;
@@ -64,18 +54,48 @@ char	*sendarg(char *argform, va_list ap)
 	if (i >= 17)
 		return (NULL);
 	f = ptrfuninit(i);
+	ft_freetab(argtab);
+	free(argtype);
 	return (f(argtype, ap));
+}
+
+int	getargflag(const char *format, char **str, va_list ap)
+{
+	char	*argform;
+	char	*buff;
+	int	i;
+
+	if (format[1] == '%')
+	{
+		ft_strconc(str, "%");
+		return (2);
+	}
+	argform = getargform(format);
+	if(!(buff = getarg(argform, ap)))
+		return (-2147468648);
+	buff = handleflag(argform, buff);
+	ft_strconc(str, buff);
+	i = ft_strlen(argform);
+	ft_strdel(&buff);
+	ft_strdel(&argform);
+	return (i + 1);
 }
 #include <locale.h>
 int main()
 {
 	char *l = setlocale(LC_ALL, "");
-	long long a = 9223372036854775807;
+	long long f = -9223372036854775808;
+	long long a = 6541;
 	unsigned long long b = 18446744073709551614;
-	wchar_t c[] = L"test de chainée";
-	char *e = "test de chaine";
-	wint_t d = 233;
-	printf("%d\n", (ft_printf("%lld et %llu puis %ls encore %lc et enfin %s\n", a, b, c, d, e)));
-	ft_putnbr(printf("%lld et %llu puis %ls encore %lc et enfin %s\n", a, b, c, d, e));
+	wchar_t *c = L"tèst";
+	char *e = "test";
+	wint_t d = 256;
+	char g = 'g';
+	int ret;
+	ret = ft_printf("%+-20.15lld et %#llX puisé%% dot %010.ls encore %lc et enfin %010p\n", a, b, c, d, e);
+	printf("%d\n", ret);
+	ret = printf("%+-20.15lld et %#llX puisé%% dot %010.ls encore %lc et enfin %010p\n", a, b, c, d, e);
+ret = sizeof(*c);
+printf("%d\n", ret);
 	return (0);
 }

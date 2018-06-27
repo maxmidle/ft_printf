@@ -19,7 +19,8 @@
 # include <stdlib.h>
 
 int		ft_printf(const char *format, ...);
-char    *sendarg(char *argform, va_list ap);
+char    *getarg(char *argform, va_list ap);
+int	getargflag(const char *format, char **str, va_list ap);
 
 char	**argtabinit();
 char	*getargtype(char *argform);
@@ -29,6 +30,22 @@ char	*(*ptrfuninit(int i))(char *, va_list);
 
 char	*ft_itoa_base(unsigned long long value, unsigned long long base);
 char	*ft_negitoa(long long value);
+
+char	*handleflag(char *argform, char *str);
+
+int	getprec(char *argform);
+char	*handleprec(int prec, char *argform, char *str);
+char	*handlenegprec(int prec,char *str);
+
+int	is_zero(char *argform);
+char	*handlezero(int len, char *argform, char *str);
+
+char	*handlehashtag(int prec, char *argform, char *str);
+
+char	*handlespaceplus(int prec, char *argform , char *str);
+
+int	getminsize(char *argform);
+char	*handleminsize(int minsize, char *argform, char *str);
 
 char	*argtype_int(char *argtype, va_list ap);
 char	*argtype_uint(char *argtype, va_list ap);

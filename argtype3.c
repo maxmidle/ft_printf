@@ -16,6 +16,8 @@ char	*argtype_ulong(char *argtype, va_list ap)
 		return (ft_itoa_base(argu, 16));
 	else if (ft_strstr(argtype, "lX"))
 		return (ft_itoa_base(argu, 17));
+	else if (ft_strstr(argtype, "lb"))
+		return (ft_itoa_base(argu, 2));
 	return (NULL);
 }
 
@@ -32,6 +34,8 @@ char	*argtype_ulonglong(char *argtype, va_list ap)
 		return (ft_itoa_base(argu, 10));
 	else if (ft_strstr(argtype, "llX"))
 		return (ft_itoa_base(argu, 17));
+	else if (ft_strstr(argtype, "llb"))
+		return (ft_itoa_base(argu, 2));
 	return (NULL);
 }
 
@@ -63,6 +67,8 @@ char	*argtype_uintmax_t(char *argtype, va_list ap)
 		return (ft_itoa_base(argu, 16));
 	else if (ft_strstr(argtype, "jX"))
 		return (ft_itoa_base(argu, 17));
+	else if (ft_strstr(argtype, "jb"))
+		return (ft_itoa_base(argu, 2));
 	return (NULL);
 }
 
@@ -79,5 +85,7 @@ char	*argtype_size_t(char *argtype, va_list ap)
 		return (ft_itoa_base((unsigned long long)argu, 16));
 	else if (ft_strstr(argtype, "zX"))
 		return (ft_itoa_base((unsigned long long)argu, 17));
+	else if (ft_strstr(argtype, "zb"))
+		return (ft_itoa_base((unsigned long long)argu, 2));
 	return (NULL);
 }

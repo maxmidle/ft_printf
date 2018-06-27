@@ -47,16 +47,16 @@ char	*ft_negitoa(long long value)
 	unsigned long long	tmp;
 
 	size = 2;
-	str = NULL;
 	tmp = value * -1;
-	if (value == -9223372036854775807)
-		return (ft_strdup("-9223372036854775807"));
+	if (value == -9223372036854775807 - 1)
+		return (ft_strdup("-9223372036854775808"));
 	while (tmp >= 10)
 	{
 		size++;
 		tmp /= 10;
 	}
 	str = ft_strnew(size);
+	value *= -1;
 	if (value <= 0 || str == NULL)
 		return (NULL);
 	while (size--)

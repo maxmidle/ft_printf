@@ -45,6 +45,8 @@ char	*argtype_uint(char *argtype, va_list ap)
 		return (ft_itoa_base(arg, 16));
 	else if (argtype[last] == 'X')
 		return (ft_itoa_base(arg, 17));
+	else if (argtype[last] == 'b')
+		return (ft_itoa_base(arg, 2));
 	return (NULL);
 }
 
@@ -64,19 +66,11 @@ char	*argtype_void(char *argtype, va_list ap)
 {
 	int		last;
 	void	*arg;
-	char	*str;
-	char	*tmp;
 
 	last = ft_strlen(argtype) - 1;
 	arg = va_arg(ap, void *);
 	if (argtype[last] == 'p')
-	{
-		str = ft_strdup("0x");
-		tmp = ft_itoa_base((unsigned long long)arg, 16);
-		ft_strconc(&str, tmp);
-		free(tmp);
-		return (str);
-	}
+		return (ft_itoa_base((unsigned long long)arg, 16));
 	return (NULL);
 }
 

@@ -75,6 +75,8 @@ char	*argtype_ushort(char *argtype, va_list ap)
 		return (ft_itoa_base(argu, 16));
 	else if (ft_strstr(argtype, "hX"))
 		return (ft_itoa_base(argu, 17));
+	else if (ft_strstr(argtype, "hb"))
+		return (ft_itoa_base(argu, 2));
 	return (NULL);
 }
 
@@ -89,11 +91,13 @@ char	*argtype_uchar(char *argtype, va_list ap)
 		return (ft_strndup(c, 1));
 	else if (ft_strstr(argtype, "hhu"))
 		return (ft_itoa_base((unsigned long long)argu, 10));
-	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)argu, 10));
-	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)argu, 10));
-	else if (ft_strstr(argtype, "hhu"))
-		return (ft_itoa_base((unsigned long long)argu, 10));
+	else if (ft_strstr(argtype, "hho"))
+		return (ft_itoa_base((unsigned long long)argu, 8));
+	else if (ft_strstr(argtype, "hhx"))
+		return (ft_itoa_base((unsigned long long)argu, 16));
+	else if (ft_strstr(argtype, "hhX"))
+		return (ft_itoa_base((unsigned long long)argu, 17));
+	else if (ft_strstr(argtype, "hhb"))
+		return (ft_itoa_base((unsigned long long)argu, 2));
 	return (NULL);
 }
