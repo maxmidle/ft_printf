@@ -57,6 +57,8 @@ char	*argtype_charchar(char *argtype, va_list ap)
 
 	last = ft_strlen(argtype) - 1;
 	arg = va_arg(ap, char *);
+	if (!arg)
+		return(ft_strdup("(null)"));
 	if (argtype[last] == 's')
 		return (ft_strdup(arg));
 	return (NULL);

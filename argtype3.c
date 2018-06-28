@@ -3,14 +3,15 @@
 char	*argtype_ulong(char *argtype, va_list ap)
 {
 	unsigned long	argu;
-	int		last;
+	char		last;
 
-	last = ft_strlen(argtype) - 1;
+	last = argtype[ft_strlen(argtype) - 1];
 	argu = va_arg(ap, unsigned long);
 	argu = (unsigned long long)argu;
-	if (argtype[last] == 'O' || ft_strstr(argtype, "lo"))
+										
+	if (last == 'O' || ft_strstr(argtype, "lo"))
 		return (ft_itoa_base(argu, 8));
-	else if (argtype[last] == 'U' || ft_strstr(argtype, "lu"))
+	else if (last == 'U' || ft_strstr(argtype, "lu"))
 		return (ft_itoa_base(argu, 10));
 	else if (ft_strstr(argtype, "lx"))
 		return (ft_itoa_base(argu, 16));
@@ -31,7 +32,7 @@ char	*argtype_ulonglong(char *argtype, va_list ap)
 	else if (ft_strstr(argtype, "llu"))
 		return (ft_itoa_base(argu, 10));
 	else if (ft_strstr(argtype, "llx"))
-		return (ft_itoa_base(argu, 10));
+		return (ft_itoa_base(argu, 16));
 	else if (ft_strstr(argtype, "llX"))
 		return (ft_itoa_base(argu, 17));
 	else if (ft_strstr(argtype, "llb"))

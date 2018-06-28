@@ -11,7 +11,7 @@ int	getminsize(char *argform)
 		{
 			if (i > 0 && argform[i - 1] == '.')
 			{
-				while (ft_isdigit(argform[i]))
+				while (argform[i] && ft_isdigit(argform[i]))
 					i++;
 			}
 			else

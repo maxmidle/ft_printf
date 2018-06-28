@@ -7,7 +7,7 @@ char	*handlehashtag(int prec, char *argform, char *str)
 
 	i = 0;
 	last = argform[ft_strlen(argform) - 1];
-	if (last == 'x' || last == 'X')
+	if ((last == 'x' || last == 'X') && ft_strcmp(str, "0"))
 	{
 		while (str[i] == '0')
 			i++;

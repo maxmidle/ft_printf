@@ -67,9 +67,9 @@ char	*argtype_ushort(char *argtype, va_list ap)
 
 	argu = (unsigned short)va_arg(ap, unsigned int);
 	argu = (unsigned long long)argu;
-	if (ft_strstr(argtype, "ho"))
+	if (ft_strstr(argtype, "ho") || ft_strstr(argtype, "hO"))
 		return (ft_itoa_base(argu, 8));
-	else if (ft_strstr(argtype, "hu"))
+	else if (ft_strstr(argtype, "hu") || ft_strstr(argtype, "hU"))
 		return (ft_itoa_base(argu, 10));
 	else if (ft_strstr(argtype, "hx"))
 		return (ft_itoa_base(argu, 16));
@@ -85,10 +85,14 @@ char	*argtype_uchar(char *argtype, va_list ap)
 	unsigned char	argu;
 	char			*c;
 
-	c = (char *)&argu;
 	argu = (unsigned char)va_arg(ap, unsigned int);
+	c = (char *)&argu;
 	if (argtype[ft_strlen(argtype) - 1] == 'c')
+	{
+		if (c[0] == 0)
+			c[0] = -1;
 		return (ft_strndup(c, 1));
+	}
 	else if (ft_strstr(argtype, "hhu"))
 		return (ft_itoa_base((unsigned long long)argu, 10));
 	else if (ft_strstr(argtype, "hho"))

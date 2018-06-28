@@ -16,24 +16,27 @@ int		ft_printf(const char *format, ...)
 {
 	int		i;
 	int	size;
+	int strsize;
 	va_list	ap;
 	char *str;
 
 	i = 0;
-	va_start(ap, format);
-	str = ft_strnew(0);
 	size = 0;
+	va_start(ap, format);
 	while (format[i])
 	{
+		strsize = 0;
 		str = ft_strcdup(&format[i], '%');
-		i += ft_strlen(str);
+		i += (int)ft_strlen(str);
 		if (format[i] == '%')
 		{
-			if ((i += getargflag(&format[i], &str, ap)) < 0)
-				return (-1);
+			if ((strsize = getargflag(format, &i,  &str, ap)) < 0)
+				return (ft_error(&str));
 		}
-		size += ft_strlen(str);
-		ft_putstr(str);
+		else
+			strsize = (int)ft_strlen(str);
+		size += (int)ft_strlen(str);
+		ft_putspecstr(str);
 		ft_strdel(&str);
 	}
 	return (size);
@@ -41,61 +44,71 @@ int		ft_printf(const char *format, ...)
 
 char	*getarg(char *argform, va_list ap)
 {
-	char *(*f)(char *argtype, va_list ap);
 	char *argtype;
 	char **argtab;
+	char *str;
 	int i;
 
 	i = 0;
+	argtype = NULL;
 	argtype = getargtype(argform);
 	argtab = argtabinit();
 	while (!ft_strstr(argtab[i], argtype))
 		i++;
 	if (i >= 17)
 		return (NULL);
-	f = ptrfuninit(i);
+	str = ptrfuninit(i, argtype, ap);
 	ft_freetab(argtab);
-	free(argtype);
-	return (f(argtype, ap));
+	ft_strdel(&argtype);
+	return (str);
 }
 
-int	getargflag(const char *format, char **str, va_list ap)
+int	getargflag(const char *format, int *i, char **str, va_list ap)
 {
 	char	*argform;
 	char	*buff;
-	int	i;
+	char	last;
+	int size;
 
-	if (format[1] == '%')
+	size = 0;
+	buff = NULL;
+	argform = getargform(&format[*i]);
+	last = argform[ft_strlen(argform) - 1];
+	if (ft_isarg(last) || last == '%')
 	{
-		ft_strconc(str, "%");
-		return (2);
+		if (argform[ft_strlen(argform) - 1] == '%')
+			buff = ft_strdup("%");
+		else if (!(buff = getarg(argform, ap)))	
+			return (ft_error(&argform));
+		buff = handleflag(argform, buff);
+		ft_strconc(str, buff);
+		size += (int)ft_strlen(*str);
+		*i += (int)(ft_strlen(argform) + 1);
+		ft_strdel(&buff);
 	}
-	argform = getargform(format);
-	if(!(buff = getarg(argform, ap)))
-		return (-2147468648);
-	buff = handleflag(argform, buff);
-	ft_strconc(str, buff);
-	i = ft_strlen(argform);
-	ft_strdel(&buff);
+	else
+		*i += (int)ft_strlen(argform) + 1;
 	ft_strdel(&argform);
-	return (i + 1);
+	return (size);
 }
-#include <locale.h>
-int main()
+
+void	ft_putspecstr(char *str)
 {
-	char *l = setlocale(LC_ALL, "");
-	long long f = -9223372036854775808;
-	long long a = 6541;
-	unsigned long long b = 18446744073709551614;
-	wchar_t *c = L"tèst";
-	char *e = "test";
-	wint_t d = 256;
-	char g = 'g';
-	int ret;
-	ret = ft_printf("%+-20.15lld et %#llX puisé%% dot %010.ls encore %lc et enfin %010p\n", a, b, c, d, e);
-	printf("%d\n", ret);
-	ret = printf("%+-20.15lld et %#llX puisé%% dot %010.ls encore %lc et enfin %010p\n", a, b, c, d, e);
-ret = sizeof(*c);
-printf("%d\n", ret);
-	return (0);
+	int i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == -1)
+			ft_putchar(0);
+		else
+			ft_putchar(str[i]);
+		i++;
+	}
+}
+
+int	ft_error(char **argform)
+{
+	ft_strdel(argform);
+	return (-1);
 }

@@ -17,10 +17,20 @@ char	*getargform(const char *format)
 	int		i;
 	char	*argform;
 
-	i = 0;
+	i = 1;
 	argform = NULL;
-	while (!(ft_isarg(format[i])) && format[i])
+	while (format[i] && (!(ft_isalpha(format[i])) || ft_isconv(format[i])) &&
+		 format[i] != '%')
 		i++;
+	if (!ft_isarg(format[i]) && format[i] != '%')
+	{
+		if (i == 1)
+			return (ft_strnew(0));
+		i = 1;
+		while (!ft_isalpha(format[i]) && format[i])
+			i++;
+		i--;
+	}
 	argform = ft_strsub(format, 1, i);
 	if (!format[i])
 		return (NULL);
@@ -30,7 +40,9 @@ char	*getargform(const char *format)
 char	*getargtype(char *argform)
 {
 	char	*argtype;
+	char	last;
 
+	last = argform[ft_strlen(argform) - 1];
 	if (!argform)
 		return (NULL);
 	if (ft_strstr(argform, "ll"))
@@ -47,18 +59,8 @@ char	*getargtype(char *argform)
 		argtype = ft_strdup("h");
 	else
 		argtype = ft_strnew(0);
-	ft_strconc(&argtype, &argform[ft_strlen(argform) - 1]);
+	ft_strnconc(&argtype, ft_strlen(argtype),  &last, 1);
 	return (argtype);
-}
-
-int		ft_isarg(char c)
-{
-										
-	if (c == 's' || c == 'S' || c == 'p' || c == 'd' || c == 'D' ||
-			c == 'i' || c == 'o' || c == 'O' || c == 'u' || c == 'U' ||
-			c == 'x' || c == 'X' || c == 'c' || c == 'C' || c == 'b')
-		return (1);
-	return (0);
 }
 
 char	**argtabinit(void)
@@ -74,9 +76,9 @@ char	**argtabinit(void)
 	argtab[5] = ft_strdup("hhd hhi");
 	argtab[6] = ft_strdup("D ld li");
 	argtab[7] = ft_strdup("lld lli zd zi");
-	argtab[8] = ft_strdup("ho hu hx hX hb");
-	argtab[9] = ft_strdup("c hho hhu hhx hhX hhb");
-	argtab[10] = ft_strdup("O U lo lu lx lX lb");
+	argtab[8] = ft_strdup("O U hU hO lo lu lx lX lb");
+	argtab[9] = ft_strdup("ho hu hx hX hb");
+	argtab[10] = ft_strdup("c hho hhu hhx hhX hhb");
 	argtab[11] = ft_strdup("llo llu llx llX llb");
 	argtab[12] = ft_strdup("jd ji");
 	argtab[13] = ft_strdup("jo ju jx jX jb");
@@ -87,10 +89,11 @@ char	**argtabinit(void)
 	return (argtab);
 }
 
-char	*(*ptrfuninit(int i))(char *, va_list)
+char	*ptrfuninit(int i, char *argform, va_list ap)
 {
+	char *str;
 	char	*(**f)(char *, va_list);
-
+	
 	f = malloc(sizeof(*f) * 18);
 	f[0] = argtype_int;
 	f[1] = argtype_uint;
@@ -100,14 +103,17 @@ char	*(*ptrfuninit(int i))(char *, va_list)
 	f[5] = argtype_char;
 	f[6] = argtype_long;
 	f[7] = argtype_longlong;
-	f[8] = argtype_ushort;
-	f[9] = argtype_uchar;
-	f[10] = argtype_ulong;
+	f[8] = argtype_ulong;
+	f[9] = argtype_ushort;
+	f[10] = argtype_uchar;
 	f[11] = argtype_ulonglong;
 	f[12] = argtype_intmax_t;
 	f[13] = argtype_uintmax_t;
 	f[14] = argtype_size_t;
 	f[15] = argtype_wint_t;
 	f[16] = argtype_wchar_t;
-	return (f[i]);
+	f[17] = NULL;
+	str = f[i](argform, ap);
+	free(f);
+	return (str);
 }

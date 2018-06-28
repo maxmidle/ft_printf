@@ -14,7 +14,9 @@ char	*handlespaceplus(int prec, char *argform, char *str)
 	{
 		if (str[0] != '-')
 		{
-			if (str[0] == '0' && prec == -1)
+			if (!ft_strcmp(str, "0"))
+				ft_strbackconc(&str, sign);
+			else if (str[0] == '0' && prec == -1)
 				str[0] = sign[0];
 			else
 				ft_strbackconc(&str, sign);

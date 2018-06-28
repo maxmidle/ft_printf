@@ -44,21 +44,21 @@ char	*argtype_wchar_t(char *argtype, va_list ap)
 
 	arg = va_arg(ap, wchar_t*);
 	i = 0;
+	buff = NULL;
 	if (ft_strstr(argtype, "ls") || ft_strstr(argtype, "S"))
 	{
 		str = ft_strnew(0);
-		while (arg[i])
+		while (arg[i++])
 		{
 			c = (char)arg[i];
 			if (MB_CUR_MAX == 1 && arg[i] <= 255)
 				buff = ft_strndup(&c, 1);
 			if (MB_CUR_MAX == 1 && arg[i] > 255)
-				return (NULL);
+				return (ft_werror(&buff, &str));
 			if (MB_CUR_MAX != 1)
 				buff = ft_witoa((wint_t)arg[i]);
 			ft_strconc(&str, buff);
 			free(buff);
-			i++;
 		}
 		return (str);
 	}
@@ -91,4 +91,11 @@ char	*ft_witoa(wint_t nbr)
 	}
 	str[ft_strlen(str)] = (char)(nbr % 64 + 128);
 	return (str);
+}
+
+char	*ft_werror(char **buff, char **str)
+{
+	ft_strdel(buff);
+	ft_strdel(str);
+	return (NULL);
 }

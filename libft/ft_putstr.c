@@ -20,5 +20,8 @@ void	ft_putstr(const char *s)
 		return ;
 	i = 0;
 	while (s[i])
-		ft_putchar(s[i++]);
+	{
+		ft_putchar(s[i]);
+		i++;
+	}
 }
